@@ -13,3 +13,5 @@ Simple text editor built with Python and Tkinter.
 ## About
 
 This is a personal learning project to explore Python GUI development through Tkinter. I'm using GitHub to store and document my progress.
+
+See [`notePad.py`](notePad.py) for the current implementation.
