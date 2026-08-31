@@ -7,9 +7,18 @@ from tkinter.filedialog import *
 class NotePad:
     # main window
     def __init__(self, root):
-        # root and title
+        # main window
         self.root = root
         root.title("notePad")
+        window_width = 900
+        window_height = 600
+
+        # screen dimensions & center points
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        x_center = int(screen_width/2 - window_width / 2)
+        y_center = int(screen_height/2 - window_height / 2)
+        root.geometry(f'{window_width}x{window_height}+{x_center}+{y_center}') # centering window
 
         # text area 
         self.text = tkinter.Text(bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9)
@@ -53,28 +62,33 @@ class NotePad:
 
     # file opening method
     def open_file(self):
-        file_path = askopenfilename(filetypes=[("Text files", "*.txt*"), ("All files", "*.*")])
+        file_path = askopenfilename(filetypes=[("text files", "*.txt*"), ("all files", "*.*")])
         if file_path:
             self.text.delete(1.0, END)
             try:
                 with open(file_path, 'r', encoding='utf-8') as file:
                     self.text.insert(1.0, file.read())
             except Exception as error:
-                showerror("Error", f"unable to open file:\n{str(error)}")
+                showerror("error", f"unable to open file:\n{str(error)}")
 
     # file saving method
     def save_file(self):
-        file_path = asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt*"), ("All files", "*.*")])
+        file_path = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt*"), ("all files", "*.*")])
         if file_path:
             try:
                 with open(file_path, 'w', encoding='utf-8') as file:
                     file.write(self.text.get(1.0, END))
             except Exception as error:
-                showerror("Error", f"unable to save file:\n{str(error)}")
+                showerror("error", f"unable to save file:\n{str(error)}")
+    
+    # "x" button method
+    def closing(self):
+        if askyesno("quit", "discard unsaved changes?"):
+            self.root.destroy()
 
 # program startup
 window = tkinter.Tk()
 app = NotePad(window)
 window.minsize(300, 300)
-window.geometry("900x600")
+window.protocol("WM_DELETE_WINDOW", app.closing)
 window.mainloop()
