@@ -42,7 +42,7 @@ class NotePad:
         menu_bar.add_command(label='about', command=self.about)
 
         # adding quitting option to the menu bar
-        menu_bar.add_command(label='quit', command=root.destroy)
+        menu_bar.add_command(label='quit', command=self.closing)
 
     # information popup method
     def about(self):
