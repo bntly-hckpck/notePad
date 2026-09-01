@@ -3,12 +3,10 @@ Simple text editor built with Python and Tkinter.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 
-- [X] Open text files from your computer
-- [X] Save files with UTF-8 encoding support
-- [X] "About" popup window
+- [X] Open/save UTF-8 text files
+- [X] File/About/Quit menu items
 - [X] Window centering
-- [X] General closing confirmation dialog
-- [ ] Only warn on close when there are unsaved changes
+- [X] Warn on close when there are unsaved changes
 - [ ] Current file save and save-as
 - [ ] Keyboard shortcuts
 - [ ] *TBD*
