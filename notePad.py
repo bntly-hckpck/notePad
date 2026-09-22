@@ -3,6 +3,8 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
+# to-do: 'new tab', 'save file as', whole 'edit' menu.
+
 class NotePad:
     # main window
     def __init__(self, root):
@@ -21,6 +23,7 @@ class NotePad:
         # text area
         self.text = tkinter.Text(bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
         self.text.pack(expand=True, fill="both") # fill entire window
+        self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
 
         # menu bar
         menu_bar = Menu(root, bg="black", fg="#39ff24", font=("TkFixedFont", 12)) # creation
@@ -29,8 +32,19 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
+        file_menu.add_command(label='new tab') #---to-do---
         file_menu.add_command(label='open file', command=self.open_file) # "open" item
         file_menu.add_command(label='save file', command=self.save_file) # "save" item
+        file_menu.add_command(label='save file as') #---to-do---
+
+        # ---to-do--- edit dropdown on menu bar
+        edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
+        menu_bar.add_cascade(label="edit", menu=edit_menu)
+        edit_menu.add_command(label='undo (ctrl + z)')
+        edit_menu.add_command(label='redo (ctrl + y)')
+        edit_menu.add_command(label='cut (ctrl + x)')
+        edit_menu.add_command(label='copy (ctrl + c)')
+        edit_menu.add_command(label='paste (ctrl + v)')
 
         # other menu items
         menu_bar.add_command(label='about', command=self.about)  # "about" item
@@ -65,7 +79,7 @@ class NotePad:
 
     # file saving method
     def save_file(self):
-        file_path = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt*"), ("all files", "*.*")])
+        file_path = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt"), ("all files", "*.*")])
         if file_path:
             try:                                            
                 with open(file_path, 'w', encoding='utf-8') as file: # open file for writing
