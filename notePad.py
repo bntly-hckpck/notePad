@@ -95,7 +95,8 @@ class NotePad:
     # "save" current file, overwriting existing one
     def save_current(self):
         if not self.filename: # if there is no file saved yet, ask how to save it as
-            self.filename = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt"), ("all files", "*.*")])
+            self.save_as()
+            return
         if self.filename: # check if self.filename has value
             try:
                 with open(self.filename, 'w', encoding='utf-8') as file:
