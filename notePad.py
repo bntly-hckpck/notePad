@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
-# to-do: 'new tab', 'save file as', whole 'edit' menu.
+# to-do: 'new tab', whole 'edit' menu.
 
 class NotePad:
     # main window
@@ -12,6 +12,9 @@ class NotePad:
         root.title("notePad")
         window_width = 900
         window_height = 600
+
+        # track current filepath, empty if new/unsaved
+        self.filename = ""
 
         # screen dimensions & center points
         screen_width = root.winfo_screenwidth()
@@ -34,8 +37,8 @@ class NotePad:
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
         file_menu.add_command(label='new tab') #---to-do---
         file_menu.add_command(label='open file', command=self.open_file) # "open" item
-        file_menu.add_command(label='save file', command=self.save_file) # "save" item
-        file_menu.add_command(label='save file as') #---to-do---
+        file_menu.add_command(label='save file', command=self.save_current) # "save" in current file
+        file_menu.add_command(label='save file as', command=self.save_as) # "save as" file
 
         # ---to-do--- edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
@@ -73,18 +76,31 @@ class NotePad:
                 with open(file_path, 'r', encoding='utf-8') as file: # open file for reading
                     self.text.delete(1.0, END) # clear editor
                     self.text.insert(1.0, file.read()) # load file into editor
+                    self.filename = file_path
                 self.text.edit_modified(False) # loaded = no unsaved changes
             except Exception as error: # error catching
                 showerror("error", f"unable to open file:\n{str(error)}")  # show error popup
 
-    # file saving method
-    def save_file(self):
+    # "save as", choose file path
+    def save_as(self):
         file_path = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt"), ("all files", "*.*")])
         if file_path:
             try:                                            
                 with open(file_path, 'w', encoding='utf-8') as file: # open file for writing
                     file.write(self.text.get(1.0, END)) # write editor content to file
                 self.text.edit_modified(False) # saved = no unsaved changes
+            except Exception as error:
+                showerror("error", f"unable to save file:\n{str(error)}")
+    
+    # "save" current file, overwriting existing one
+    def save_current(self):
+        if not self.filename: # if there is no file saved yet, ask how to save it as
+            self.filename = asksaveasfilename(defaultextension=".txt", filetypes=[("text files", "*.txt"), ("all files", "*.*")])
+        if self.filename: # check if self.filename has value
+            try:
+                with open(self.filename, 'w', encoding='utf-8') as file:
+                    file.write(self.text.get(1.0, END)) # try to overwrite it
+                self.text.edit_modified(False)
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
 
