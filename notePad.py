@@ -35,23 +35,26 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
-        file_menu.add_command(label='new tab') #---to-do---
-        file_menu.add_command(label='open file', command=self.open_file) # "open" item
-        file_menu.add_command(label='save file', command=self.save_current) # "save" in current file
-        file_menu.add_command(label='save file as', command=self.save_as) # "save as" file
+        file_menu.add_command(label="new tab") #---to-do---
+        file_menu.add_command(label="open file", command=self.open_file) # "open" item
+        file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
+        file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
 
         # ---to-do--- edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
-        edit_menu.add_command(label='undo (ctrl + z)')
-        edit_menu.add_command(label='redo (ctrl + y)')
-        edit_menu.add_command(label='cut (ctrl + x)')
-        edit_menu.add_command(label='copy (ctrl + c)')
-        edit_menu.add_command(label='paste (ctrl + v)')
+        edit_menu.add_command(label="undo", accelerator="Ctrl+Z")
+        edit_menu.add_command(label="redo", accelerator="Ctrl+Y")
+        edit_menu.add_command(label="cut", accelerator="Ctrl+X")
+        edit_menu.add_command(label="copy", accelerator="Ctrl+C")
+        edit_menu.add_command(label="paste", accelerator="Ctrl+V")
 
         # other menu items
-        menu_bar.add_command(label='about', command=self.about)  # "about" item
-        menu_bar.add_command(label='quit', command=self.closing) # "quit" item
+        menu_bar.add_command(label="about", command=self.about)  # "about" item
+        menu_bar.add_command(label="quit", command=self.closing) # "quit" item
+
+        # keyboard shortcuts
+        self.root.bind("<Control-s>", lambda event: self.save_current())
 
     # information popup method
     def about(self):
