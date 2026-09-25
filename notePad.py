@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
-# to-do: 'new tab', whole 'edit' menu.
+# to-do: 'new tab', finish 'edit' menu.
 
 class NotePad:
     # main window
@@ -35,26 +35,28 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
-        file_menu.add_command(label="new tab") #---to-do---
+        file_menu.add_command(label="new tab")
         file_menu.add_command(label="open file", command=self.open_file) # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
 
-        # ---to-do--- edit dropdown on menu bar
+        # edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
-        edit_menu.add_command(label="undo", accelerator="Ctrl+Z")
-        edit_menu.add_command(label="redo", accelerator="Ctrl+Y")
+        edit_menu.add_command(label="select all", accelerator="Ctrl+A", command=self.select_all)
         edit_menu.add_command(label="cut", accelerator="Ctrl+X")
         edit_menu.add_command(label="copy", accelerator="Ctrl+C")
         edit_menu.add_command(label="paste", accelerator="Ctrl+V")
-
+        edit_menu.add_command(label="undo", accelerator="Ctrl+Z")
+        edit_menu.add_command(label="redo", accelerator="Ctrl+Y")
+        
         # other menu items
         menu_bar.add_command(label="about", command=self.about)  # "about" item
         menu_bar.add_command(label="quit", command=self.closing) # "quit" item
 
         # keyboard shortcuts
         self.root.bind("<Control-s>", lambda event: self.save_current())
+        self.root.bind("<Control-a>", lambda event: self.select_all())
 
     # information popup method
     def about(self):
@@ -114,6 +116,13 @@ class NotePad:
             self.root.destroy() # quit
         elif askyesno("quit", "discard unsaved changes?"): # else if present changes but user confirms quitting
             self.root.destroy() # quit
+
+    # select all written text
+    def select_all(self):
+        self.text.tag_add(SEL, "1.0", "end-1c") # highlight all written text (excluding space after)
+        self.text.mark_set(INSERT, "1.0") # move cursor to beginning
+        self.text.see(INSERT) # make selection visible
+        return 'break' # prevent default tkinter behavior
 
 # program startup
 window = tkinter.Tk()
