@@ -44,9 +44,9 @@ class NotePad:
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
         edit_menu.add_command(label="select all", accelerator="Ctrl+A", command=self.select_all)
-        edit_menu.add_command(label="cut", accelerator="Ctrl+X")
-        edit_menu.add_command(label="copy", accelerator="Ctrl+C")
-        edit_menu.add_command(label="paste", accelerator="Ctrl+V")
+        edit_menu.add_command(label="cut", accelerator="Ctrl+X", command=self.cut_text)
+        edit_menu.add_command(label="copy", accelerator="Ctrl+C", command=self.copy_text)
+        edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
         edit_menu.add_command(label="undo", accelerator="Ctrl+Z")
         edit_menu.add_command(label="redo", accelerator="Ctrl+Y")
         
@@ -57,6 +57,9 @@ class NotePad:
         # keyboard shortcuts
         self.root.bind("<Control-s>", lambda event: self.save_current())
         self.root.bind("<Control-a>", lambda event: self.select_all())
+        self.root.bind("<Control-x>", lambda event: self.cut_text())
+        self.root.bind("<Control-c>", lambda event: self.copy_text())
+        self.root.bind("<Control-v>", lambda event: self.paste_text())
 
     # information popup method
     def about(self):
@@ -123,6 +126,24 @@ class NotePad:
         self.text.mark_set(INSERT, "1.0") # move cursor to beginning
         self.text.see(INSERT) # make selection visible
         return 'break' # prevent default tkinter behavior
+
+    # copy selected text
+    def copy_text(self):
+        text = self.text.get("sel.first", "sel.last")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+
+    # paste copied text
+    def paste_text(self):
+        text = self.root.clipboard_get()
+        self.text.insert("insert", text)
+
+    # cut selected text
+    def cut_text(self):
+        text = self.text.get("sel.first", "sel.last")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+        self.text.delete("sel.first", "sel.last")
 
 # program startup
 window = tkinter.Tk()
