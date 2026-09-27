@@ -8,9 +8,9 @@ Simple text editor built with Python and Tkinter.
 - [X] Window centering
 - [X] Warn on close when there are unsaved changes
 - [X] "Save file" and "Save file as"
-- [ ] "Edit" menu
+- [X] "Edit" menu
+- [X] Keyboard shortcuts
 - [ ] "New tab" option
-- [ ] Keyboard shortcuts
 - [ ] *TBD*
 
 ## About
