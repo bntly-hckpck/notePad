@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
-# to-do: 'new tab', finish 'edit' menu.
+# to-do: 'new tab'
 
 class NotePad:
     # main window
@@ -24,7 +24,7 @@ class NotePad:
         root.geometry(f'{window_width}x{window_height}+{x_center}+{y_center}') # centering window
 
         # text area
-        self.text = tkinter.Text(bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
+        self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
         self.text.pack(expand=True, fill="both") # fill entire window
         self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
 
@@ -35,7 +35,7 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
-        file_menu.add_command(label="new tab")
+        file_menu.add_command(label="new tab", state=DISABLED)
         file_menu.add_command(label="open file", command=self.open_file) # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
@@ -47,19 +47,23 @@ class NotePad:
         edit_menu.add_command(label="cut", accelerator="Ctrl+X", command=self.cut_text)
         edit_menu.add_command(label="copy", accelerator="Ctrl+C", command=self.copy_text)
         edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
-        edit_menu.add_command(label="undo", accelerator="Ctrl+Z")
-        edit_menu.add_command(label="redo", accelerator="Ctrl+Y")
+        edit_menu.add_command(label="undo", accelerator="Ctrl+Z", command=self.undoing)
+        edit_menu.add_command(label="redo", accelerator="Ctrl+Y", command=self.redoing)
         
         # other menu items
         menu_bar.add_command(label="about", command=self.about)  # "about" item
-        menu_bar.add_command(label="quit", command=self.closing) # "quit" item
+        menu_bar.add_command(label="quit", command=self.closing) # "quit" item  
 
         # keyboard shortcuts
         self.root.bind("<Control-s>", lambda event: self.save_current())
         self.root.bind("<Control-a>", lambda event: self.select_all())
-        self.root.bind("<Control-x>", lambda event: self.cut_text())
-        self.root.bind("<Control-c>", lambda event: self.copy_text())
-        self.root.bind("<Control-v>", lambda event: self.paste_text())
+        self.text.bind("<Control-z>", lambda event: self.undoing())
+        self.text.bind("<Control-y>", lambda event: self.redoing())
+
+        # keyboard shortcuts already implemented by default tkinter
+        # self.root.bind("<Control-x>", lambda event: self.cut_text())
+        # self.root.bind("<Control-c>", lambda event: self.copy_text())
+        # self.root.bind("<Control-v>", lambda event: self.paste_text())
 
     # information popup method
     def about(self):
@@ -144,6 +148,22 @@ class NotePad:
         self.root.clipboard_clear()
         self.root.clipboard_append(text)
         self.text.delete("sel.first", "sel.last")
+
+    # undo last modification
+    def undoing(self):
+        try:  
+            self.text.edit_undo()
+        except tkinter.TclError:
+            pass  
+        return "break"
+
+    # redo last modification
+    def redoing(self):
+        try:
+            self.text.edit_redo()
+        except tkinter.TclError:
+            pass
+        return "break"
 
 # program startup
 window = tkinter.Tk()
