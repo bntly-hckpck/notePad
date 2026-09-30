@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
-# to-do: 'new tab'
+# to-do: "new tab"/"quit tab"/"save all", "reload" 
 
 class NotePad:
     # main window
@@ -39,11 +39,16 @@ class NotePad:
         file_menu.add_command(label="open file", command=self.open_file) # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
+        file_menu.add_command(label="save all", state=DISABLED)
+        file_menu.add_command(label="reload", state=DISABLED)
+        file_menu.add_command(label="quit tab", state=DISABLED)
+        file_menu.add_command(label="quit", command=self.closing)
 
         # edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
         edit_menu.add_command(label="select all", accelerator="Ctrl+A", command=self.select_all)
+        edit_menu.add_command(label="delete selection", accelerator="delete", state=DISABLED)
         edit_menu.add_command(label="cut", accelerator="Ctrl+X", command=self.cut_text)
         edit_menu.add_command(label="copy", accelerator="Ctrl+C", command=self.copy_text)
         edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
@@ -52,7 +57,6 @@ class NotePad:
         
         # other menu items
         menu_bar.add_command(label="about", command=self.about)  # "about" item
-        menu_bar.add_command(label="quit", command=self.closing) # "quit" item  
 
         # keyboard shortcuts
         self.root.bind("<Control-s>", lambda event: self.save_current())
