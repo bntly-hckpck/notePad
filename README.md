@@ -10,7 +10,9 @@ Simple text editor built with Python and Tkinter.
 - [X] "Save file" and "Save file as"
 - [X] "Edit" menu
 - [X] Keyboard shortcuts
-- [ ] "New tab" option
+- [ ] "New tab"/"Quit tab"
+- [ ] "Save all"
+- [ ] "Reload"
 - [ ] *TBD*
 
 ## About
