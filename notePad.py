@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 
-# to-do: "new tab"/"quit tab"/"save all", "reload" 
+# to-do: "new tab"/"quit tab"/"save all"
 
 class NotePad:
     # main window
@@ -40,7 +40,7 @@ class NotePad:
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
-        file_menu.add_command(label="reload", state=DISABLED)
+        file_menu.add_command(label="refresh", command=self.refresh)
         file_menu.add_command(label="quit tab", state=DISABLED)
         file_menu.add_command(label="quit", command=self.closing)
 
@@ -168,6 +168,16 @@ class NotePad:
         except tkinter.TclError:
             pass
         return "break"
+
+    # refresh file
+    def refresh(self):
+        try:
+            with open(self.filename, 'r', encoding='utf-8') as file:
+                self.text.delete(1.0, END)
+                self.text.insert(1.0, file.read())
+            self.text.edit_modified(False)
+        except Exception as error:
+            showerror("error", f"unable to refresh:\n{str(error)}")
 
 # program startup
 window = tkinter.Tk()
