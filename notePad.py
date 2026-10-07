@@ -42,7 +42,7 @@ class NotePad:
         file_menu.add_command(label="save all", state=DISABLED)
         file_menu.add_command(label="refresh", command=self.refresh)
         file_menu.add_command(label="quit tab", state=DISABLED)
-        file_menu.add_command(label="quit", command=self.closing)
+        file_menu.add_command(label="quit", accelerator="Ctrl+Q", command=self.closing)
 
         # edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
@@ -63,6 +63,7 @@ class NotePad:
         self.root.bind("<Control-a>", lambda event: self.select_all())
         self.text.bind("<Control-z>", lambda event: self.undoing())
         self.text.bind("<Control-y>", lambda event: self.redoing())
+        self.root.bind("<Control-q>", lambda event: self.closing())
 
         # keyboard shortcuts already implemented by default tkinter
         # self.root.bind("<Control-x>", lambda event: self.cut_text())
