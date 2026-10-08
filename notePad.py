@@ -36,7 +36,7 @@ class NotePad:
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
         file_menu.add_command(label="new tab", state=DISABLED)
-        file_menu.add_command(label="open file", command=self.open_file) # "open" item
+        file_menu.add_command(label="open file", command=self.open_file, accelerator="Ctrl+O") # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
@@ -64,6 +64,7 @@ class NotePad:
         self.text.bind("<Control-z>", lambda event: self.undoing())
         self.text.bind("<Control-y>", lambda event: self.redoing())
         self.root.bind("<Control-q>", lambda event: self.closing())
+        self.root.bind("<Control-o>", lambda event: self.open_file())
 
         # keyboard shortcuts already implemented by default tkinter
         # self.root.bind("<Control-x>", lambda event: self.cut_text())
