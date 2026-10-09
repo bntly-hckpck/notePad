@@ -9,7 +9,7 @@ Simple text editor built with Python and Tkinter.
 - [X] Warn on close when there are unsaved changes
 - [X] "Save file" and "Save file as"
 - [X] "Edit" menu
-- [X] Keyboard shortcuts
+- [X] Keyboard shortcuts (ctrl+a/x/c/v/z/y/n/o/s/q)
 - [X] "Refresh" file
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
