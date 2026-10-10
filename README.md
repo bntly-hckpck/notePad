@@ -4,13 +4,15 @@ Simple text editor built with Python and Tkinter.
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 
 - [X] Open/save UTF-8 text files
-- [X] File/About/Quit menu items
+- [X] "File" menu
+- [X] "About" menu
 - [X] Window centering
 - [X] Warn on close when there are unsaved changes
 - [X] "Save file" and "Save file as"
 - [X] "Edit" menu
 - [X] Keyboard shortcuts (ctrl+a/x/c/v/z/y/n/o/s/q)
 - [X] "Refresh" file
+- [X] "Theme" menu (custom text/background colors)
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
 - [ ] *TBD*
