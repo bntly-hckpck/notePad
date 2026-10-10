@@ -2,6 +2,7 @@ import tkinter
 from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
+from tkinter import colorchooser
 
 # to-do: "new tab"/"quit tab"/"save all"
 
@@ -55,6 +56,12 @@ class NotePad:
         edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
         edit_menu.add_command(label="undo", accelerator="Ctrl+Z", command=self.undoing)
         edit_menu.add_command(label="redo", accelerator="Ctrl+Y", command=self.redoing)
+
+        # theme menu
+        theme_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
+        menu_bar.add_cascade(label="theme", menu=theme_menu)
+        theme_menu.add_command(label="text", command=self.text_color)
+        theme_menu.add_command(label="background", command=self.bg_color)
         
         # other menu items
         menu_bar.add_command(label="about", command=self.about)  # "about" item
@@ -191,7 +198,19 @@ class NotePad:
         elif askyesno("new file", "discard unsaved changes?"):
             self.text.delete(1.0, END)
             self.filename = ""
+   
+    # change background color
+    def bg_color(self):
+        color = colorchooser.askcolor(title="choose background color")
+        if color[1]:
+            self.text.config(bg=color[1])
 
+    # change typing color
+    def text_color(self):
+        color = colorchooser.askcolor(title="choose text color")
+        if color[1]:
+            self.text.config(fg=color[1])
+            self.text.config(insertbackground=color[1])
 
 # program startup
 window = tkinter.Tk()
