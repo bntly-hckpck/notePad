@@ -38,10 +38,12 @@ class NotePad:
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
         file_menu.add_command(label="new", command=self.new_file, accelerator="Ctrl+N")
         file_menu.add_command(label="new tab", state=DISABLED)
+        file_menu.add_separator()
         file_menu.add_command(label="open file", command=self.open_file, accelerator="Ctrl+O") # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
+        file_menu.add_separator()
         file_menu.add_command(label="refresh", command=self.refresh)
         file_menu.add_command(label="quit tab", state=DISABLED)
         file_menu.add_command(label="quit", accelerator="Ctrl+Q", command=self.closing)
@@ -54,14 +56,19 @@ class NotePad:
         edit_menu.add_command(label="cut", accelerator="Ctrl+X", command=self.cut_text)
         edit_menu.add_command(label="copy", accelerator="Ctrl+C", command=self.copy_text)
         edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
+        edit_menu.add_separator()
         edit_menu.add_command(label="undo", accelerator="Ctrl+Z", command=self.undoing)
         edit_menu.add_command(label="redo", accelerator="Ctrl+Y", command=self.redoing)
 
         # theme menu
         theme_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="theme", menu=theme_menu)
-        theme_menu.add_command(label="text", command=self.text_color)
-        theme_menu.add_command(label="background", command=self.bg_color)
+        theme_menu.add_command(label="terminal", command=self.terminal_theme)
+        theme_menu.add_command(label="coffee", command=self.coffee_theme)
+        theme_menu.add_command(label="ocean", command=self.ocean_theme)
+        theme_menu.add_separator()
+        theme_menu.add_command(label="custom text", command=self.text_color)
+        theme_menu.add_command(label="custom background", command=self.bg_color)
         
         # other menu items
         menu_bar.add_command(label="about", command=self.about)  # "about" item
@@ -209,8 +216,15 @@ class NotePad:
     def text_color(self):
         color = colorchooser.askcolor(title="choose text color")
         if color[1]:
-            self.text.config(fg=color[1])
-            self.text.config(insertbackground=color[1])
+            self.text.config(fg=color[1], insertbackground=color[1])
+
+    # themes
+    def terminal_theme(self):
+        self.text.config(bg="black", fg="#39ff24", insertbackground="#39ff24")
+    def coffee_theme(self):
+        self.text.config(bg="#5d4037", fg="#e1ddd6", insertbackground="#e1ddd6")
+    def ocean_theme(self):
+        self.text.config(bg="#003459", fg="#ade8f4", insertbackground="#ade8f4")
 
 # program startup
 window = tkinter.Tk()
