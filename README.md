@@ -12,7 +12,8 @@ Simple text editor built with Python and Tkinter.
 - [X] "Edit" menu
 - [X] Keyboard shortcuts (ctrl+a/x/c/v/z/y/n/o/s/q)
 - [X] "Refresh" file
-- [X] "Theme" menu (custom text/background colors)
+- [X] "Theme" menu with presets
+- [X] Custom text/background colors
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
 - [ ] *TBD*
