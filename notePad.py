@@ -13,6 +13,8 @@ class NotePad:
         root.title("notePad")
         window_width = 900
         window_height = 600
+        self.status = Label(root, text="status: ready", anchor=W, bg="black", fg="#39ff24")
+        self.status.pack(side=BOTTOM, fill=X)
 
         # track current filepath, empty if new/unsaved
         self.filename = ""
@@ -111,6 +113,8 @@ class NotePad:
                     self.text.delete(1.0, END) # clear editor
                     self.text.insert(1.0, file.read()) # load file into editor
                     self.filename = file_path
+                    self.status.config(text=f"status: opened -> {self.filename}")
+                    self.root.after(6000, lambda: self.status.config(text="status: ready"))
                 self.text.edit_modified(False) # loaded = no unsaved changes
             except Exception as error: # error catching
                 showerror("error", f"unable to open file:\n{str(error)}")  # show error popup
@@ -136,6 +140,8 @@ class NotePad:
                 with open(self.filename, 'w', encoding='utf-8') as file:
                     file.write(self.text.get(1.0, END)) # try to overwrite it
                 self.text.edit_modified(False)
+                self.status.config(text=f"status: saved -> {self.filename}")
+                self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
 
