@@ -113,9 +113,9 @@ class NotePad:
                     self.text.delete(1.0, END) # clear editor
                     self.text.insert(1.0, file.read()) # load file into editor
                     self.filename = file_path
-                    self.status.config(text=f"status: opened -> {self.filename}")
-                    self.root.after(6000, lambda: self.status.config(text="status: ready"))
                 self.text.edit_modified(False) # loaded = no unsaved changes
+                self.status.config(text=f"status: opened -> {self.filename}")
+                self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error: # error catching
                 showerror("error", f"unable to open file:\n{str(error)}")  # show error popup
 
@@ -127,6 +127,8 @@ class NotePad:
                 with open(file_path, 'w', encoding='utf-8') as file: # open file for writing
                     file.write(self.text.get(1.0, END)) # write editor content to file
                 self.text.edit_modified(False) # saved = no unsaved changes
+                self.status.config(text=f"status: saved as -> {self.filename}")
+                self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
     
@@ -140,7 +142,7 @@ class NotePad:
                 with open(self.filename, 'w', encoding='utf-8') as file:
                     file.write(self.text.get(1.0, END)) # try to overwrite it
                 self.text.edit_modified(False)
-                self.status.config(text=f"status: saved -> {self.filename}")
+                self.status.config(text=f"status: saved current -> {self.filename}")
                 self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
@@ -200,6 +202,8 @@ class NotePad:
                 self.text.delete(1.0, END)
                 self.text.insert(1.0, file.read())
             self.text.edit_modified(False)
+            self.status.config(text=f"status: refreshed file")
+            self.root.after(6000, lambda: self.status.config(text="status: ready"))
         except Exception as error:
             showerror("error", f"unable to refresh:\n{str(error)}")
     
@@ -211,26 +215,38 @@ class NotePad:
         elif askyesno("new file", "discard unsaved changes?"):
             self.text.delete(1.0, END)
             self.filename = ""
+        self.status.config(text=f"status: created new file")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
    
-    # change background color
-    def bg_color(self):
-        color = colorchooser.askcolor(title="choose background color")
-        if color[1]:
-            self.text.config(bg=color[1])
-
     # change typing color
     def text_color(self):
         color = colorchooser.askcolor(title="choose text color")
         if color[1]:
             self.text.config(fg=color[1], insertbackground=color[1])
+        self.status.config(text=f"status: changed text color")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
+
+    # change background color
+    def bg_color(self):
+        color = colorchooser.askcolor(title="choose background color")
+        if color[1]:
+            self.text.config(bg=color[1])
+        self.status.config(text=f"status: changed background color")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
 
     # themes
     def terminal_theme(self):
         self.text.config(bg="black", fg="#39ff24", insertbackground="#39ff24")
+        self.status.config(text=f"status: using terminal theme")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
     def coffee_theme(self):
         self.text.config(bg="#5d4037", fg="#e1ddd6", insertbackground="#e1ddd6")
+        self.status.config(text=f"status: using coffee theme")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
     def ocean_theme(self):
         self.text.config(bg="#003459", fg="#ade8f4", insertbackground="#ade8f4")
+        self.status.config(text=f"status: using ocean theme")
+        self.root.after(6000, lambda: self.status.config(text="status: ready"))
 
 # program startup
 window = tkinter.Tk()
