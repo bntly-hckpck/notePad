@@ -28,8 +28,14 @@ class NotePad:
 
         # text area
         self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
-        self.text.pack(expand=True, fill="both") # fill entire window
+        self.text.pack(side=LEFT, expand=True, fill="both") # fill entire window
         self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
+
+        # scrollbar
+        self.scrollbar = tkinter.Scrollbar(self.root)
+        self.scrollbar.pack(side=RIGHT, fill=Y)
+        self.text.config(yscrollcommand=self.scrollbar.set) # update slider position
+        self.scrollbar.config(command=self.text.yview) # move content up/down
 
         # menu bar
         menu_bar = Menu(root, bg="black", fg="#39ff24", font=("TkFixedFont", 12)) # creation
