@@ -15,6 +15,7 @@ Simple text editor built with Python and Tkinter.
 - [X] "Theme" menu with presets
 - [X] Custom text/background colors
 - [X] Status bar showing file operations
+- [X] Vertical scrollbar
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
 - [ ] *TBD*
