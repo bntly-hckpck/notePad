@@ -132,6 +132,7 @@ class NotePad:
             try:                                            
                 with open(file_path, 'w', encoding='utf-8') as file: # open file for writing
                     file.write(self.text.get(1.0, END)) # write editor content to file
+                self.filename = file_path
                 self.text.edit_modified(False) # saved = no unsaved changes
                 self.status.config(text=f"status: saved as -> {self.filename}")
                 self.root.after(6000, lambda: self.status.config(text="status: ready"))
