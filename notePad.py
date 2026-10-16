@@ -18,6 +18,7 @@ class NotePad:
 
         # track current filepath, empty if new/unsaved
         self.filename = ""
+        self.fontsize = 12
 
         # screen dimensions & center points
         screen_width = root.winfo_screenwidth()
@@ -27,7 +28,7 @@ class NotePad:
         root.geometry(f'{window_width}x{window_height}+{x_center}+{y_center}') # centering window
 
         # text area
-        self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=("TkFixedFont", 12), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
+        self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=("TkFixedFont", self.fontsize), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
         self.text.pack(side=LEFT, expand=True, fill="both") # fill entire window
         self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
 
@@ -89,6 +90,10 @@ class NotePad:
         self.root.bind("<Control-q>", lambda event: self.closing())
         self.root.bind("<Control-o>", lambda event: self.open_file())
         self.root.bind("<Control-n>", lambda event: self.new_file())
+        self.root.bind("<Control-plus>", lambda event: self.font_up())
+        self.root.bind("<Control-minus>", lambda event: self.font_down())
+        self.root.bind("<Control-0>", lambda event: self.font_normal())
+
 
         # keyboard shortcuts already implemented by default tkinter
         # self.root.bind("<Control-x>", lambda event: self.cut_text())
@@ -224,7 +229,24 @@ class NotePad:
             self.filename = ""
         self.status.config(text=f"status: created new file")
         self.root.after(6000, lambda: self.status.config(text="status: ready"))
-   
+
+    # make font bigger
+    def font_up(self):
+        if (self.fontsize + 3) <= 42:
+            self.fontsize += 3
+            self.text.config(font=("TkFixedFont", self.fontsize))
+
+    # make font smaller
+    def font_down(self):
+        if (self.fontsize - 3) >= 6:
+            self.fontsize -= 3
+            self.text.config(font=("TkFixedFont", self.fontsize))
+
+    # return font to normal
+    def font_normal(self):
+        self.fontsize = 12
+        self.text.config(font=("TkFixedFont", self.fontsize))
+
     # change typing color
     def text_color(self):
         color = colorchooser.askcolor(title="choose text color")
