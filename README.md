@@ -10,12 +10,13 @@ Simple text editor built with Python and Tkinter.
 - [X] Warn on close when there are unsaved changes
 - [X] "Save file" and "Save file as"
 - [X] "Edit" menu
-- [X] Keyboard shortcuts (ctrl+a/x/c/v/z/y/n/o/s/q)
+- [X] Keyboard shortcuts (ctrl+a/x/c/v/z/y/n/o/s/q/+/-/0)
 - [X] "Refresh" file
 - [X] "Theme" menu with presets
 - [X] Custom text/background colors
 - [X] Status bar showing file operations
 - [X] Vertical scrollbar
+- [X] Font resizing
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
 - [ ] *TBD*
