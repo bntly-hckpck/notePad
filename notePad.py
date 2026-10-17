@@ -1,3 +1,4 @@
+import sys
 import tkinter
 from tkinter import *
 from tkinter.messagebox import *
@@ -5,6 +6,13 @@ from tkinter.filedialog import *
 from tkinter import colorchooser
 
 # to-do: "new tab"/"quit tab"/"save all"
+
+if sys.platform == "darwin":
+    modifier = "Command"
+    accelerator = "Cmd"
+else:
+    modifier = "Control"
+    accelerator = "Ctrl"
 
 class NotePad:
     # main window
@@ -45,29 +53,29 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
-        file_menu.add_command(label="new", command=self.new_file, accelerator="Ctrl+N")
+        file_menu.add_command(label="new", command=self.new_file, accelerator=f"{accelerator}+N")
         file_menu.add_command(label="new tab", state=DISABLED)
         file_menu.add_separator()
-        file_menu.add_command(label="open file", command=self.open_file, accelerator="Ctrl+O") # "open" item
-        file_menu.add_command(label="save file", command=self.save_current, accelerator="Ctrl+S") # "save" in current file
+        file_menu.add_command(label="open file", command=self.open_file, accelerator=f"{accelerator}+O") # "open" item
+        file_menu.add_command(label="save file", command=self.save_current, accelerator=f"{accelerator}+S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
         file_menu.add_separator()
         file_menu.add_command(label="refresh", command=self.refresh)
         file_menu.add_command(label="quit tab", state=DISABLED)
-        file_menu.add_command(label="quit", accelerator="Ctrl+Q", command=self.closing)
+        file_menu.add_command(label="quit", accelerator=f"{accelerator}+Q", command=self.closing)
 
         # edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
-        edit_menu.add_command(label="select all", accelerator="Ctrl+A", command=self.select_all)
+        edit_menu.add_command(label="select all", accelerator=f"{accelerator}+A", command=self.select_all)
         edit_menu.add_command(label="delete selection", accelerator="delete", state=DISABLED)
-        edit_menu.add_command(label="cut", accelerator="Ctrl+X", command=self.cut_text)
-        edit_menu.add_command(label="copy", accelerator="Ctrl+C", command=self.copy_text)
-        edit_menu.add_command(label="paste", accelerator="Ctrl+V", command=self.paste_text)
+        edit_menu.add_command(label="cut", accelerator=f"{accelerator}+X", command=self.cut_text)
+        edit_menu.add_command(label="copy", accelerator=f"{accelerator}+C", command=self.copy_text)
+        edit_menu.add_command(label="paste", accelerator=f"{accelerator}+V", command=self.paste_text)
         edit_menu.add_separator()
-        edit_menu.add_command(label="undo", accelerator="Ctrl+Z", command=self.undoing)
-        edit_menu.add_command(label="redo", accelerator="Ctrl+Y", command=self.redoing)
+        edit_menu.add_command(label="undo", accelerator=f"{accelerator}+Z", command=self.undoing)
+        edit_menu.add_command(label="redo", accelerator=f"{accelerator}+Y", command=self.redoing)
 
         # theme menu
         theme_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
@@ -83,22 +91,22 @@ class NotePad:
         menu_bar.add_command(label="about", command=self.about)  # "about" item
 
         # keyboard shortcuts
-        self.root.bind("<Control-s>", lambda event: self.save_current())
-        self.root.bind("<Control-a>", lambda event: self.select_all())
-        self.text.bind("<Control-z>", lambda event: self.undoing())
-        self.text.bind("<Control-y>", lambda event: self.redoing())
-        self.root.bind("<Control-q>", lambda event: self.closing())
-        self.root.bind("<Control-o>", lambda event: self.open_file())
-        self.root.bind("<Control-n>", lambda event: self.new_file())
-        self.root.bind("<Control-plus>", lambda event: self.font_up())
-        self.root.bind("<Control-minus>", lambda event: self.font_down())
-        self.root.bind("<Control-0>", lambda event: self.font_normal())
+        self.root.bind(f"<{modifier}-s>", lambda event: self.save_current())
+        self.root.bind(f"<{modifier}-a>", lambda event: self.select_all())
+        self.text.bind(f"<{modifier}-z>", lambda event: self.undoing())
+        self.text.bind(f"<{modifier}-y>", lambda event: self.redoing())
+        self.root.bind(f"<{modifier}-q>", lambda event: self.closing())
+        self.root.bind(f"<{modifier}-o>", lambda event: self.open_file())
+        self.root.bind(f"<{modifier}-n>", lambda event: self.new_file())
+        self.root.bind(f"<{modifier}-plus>", lambda event: self.font_up())
+        self.root.bind(f"<{modifier}-minus>", lambda event: self.font_down())
+        self.root.bind(f"<{modifier}-0>", lambda event: self.font_normal())
 
 
         # keyboard shortcuts already implemented by default tkinter
-        # self.root.bind("<Control-x>", lambda event: self.cut_text())
-        # self.root.bind("<Control-c>", lambda event: self.copy_text())
-        # self.root.bind("<Control-v>", lambda event: self.paste_text())
+        # self.root.bind(f"<{modifier}-x>", lambda event: self.cut_text())
+        # self.root.bind(f"<{modifier}-c>", lambda event: self.copy_text())
+        # self.root.bind(f"<{modifier}-v>", lambda event: self.paste_text())
 
     # information popup method
     def about(self):
