@@ -53,29 +53,33 @@ class NotePad:
         # file dropdown on menu bar
         file_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white") # dropdown menu
         menu_bar.add_cascade(label="file", menu=file_menu) # add "file" to menu bar
-        file_menu.add_command(label="new", command=self.new_file, accelerator=f"{accelerator}+N")
+        file_menu.add_command(label="new", command=self.new_file, accelerator=f"{accelerator} + N")
         file_menu.add_command(label="new tab", state=DISABLED)
         file_menu.add_separator()
-        file_menu.add_command(label="open file", command=self.open_file, accelerator=f"{accelerator}+O") # "open" item
-        file_menu.add_command(label="save file", command=self.save_current, accelerator=f"{accelerator}+S") # "save" in current file
+        file_menu.add_command(label="open file", command=self.open_file, accelerator=f"{accelerator} + O") # "open" item
+        file_menu.add_command(label="save file", command=self.save_current, accelerator=f"{accelerator} + S") # "save" in current file
         file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
         file_menu.add_separator()
         file_menu.add_command(label="refresh", command=self.refresh)
         file_menu.add_command(label="quit tab", state=DISABLED)
-        file_menu.add_command(label="quit", accelerator=f"{accelerator}+Q", command=self.closing)
+        file_menu.add_command(label="quit", accelerator=f"{accelerator} + Q", command=self.closing)
 
         # edit dropdown on menu bar
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
-        edit_menu.add_command(label="select all", accelerator=f"{accelerator}+A", command=self.select_all)
+        edit_menu.add_command(label="select all", accelerator=f"{accelerator} + A", command=self.select_all)
         edit_menu.add_command(label="delete selection", accelerator="delete", state=DISABLED)
-        edit_menu.add_command(label="cut", accelerator=f"{accelerator}+X", command=self.cut_text)
-        edit_menu.add_command(label="copy", accelerator=f"{accelerator}+C", command=self.copy_text)
-        edit_menu.add_command(label="paste", accelerator=f"{accelerator}+V", command=self.paste_text)
+        edit_menu.add_command(label="cut", accelerator=f"{accelerator} + X", command=self.cut_text)
+        edit_menu.add_command(label="copy", accelerator=f"{accelerator} + C", command=self.copy_text)
+        edit_menu.add_command(label="paste", accelerator=f"{accelerator} + V", command=self.paste_text)
         edit_menu.add_separator()
-        edit_menu.add_command(label="undo", accelerator=f"{accelerator}+Z", command=self.undoing)
-        edit_menu.add_command(label="redo", accelerator=f"{accelerator}+Y", command=self.redoing)
+        edit_menu.add_command(label="undo", accelerator=f"{accelerator} + Z", command=self.undoing)
+        edit_menu.add_command(label="redo", accelerator=f"{accelerator} + Y", command=self.redoing)
+        edit_menu.add_separator()
+        edit_menu.add_command(label="zoom in", accelerator=f"{accelerator} + +", command=self.font_up)
+        edit_menu.add_command(label="zoom out", accelerator=f"{accelerator} + -", command=self.font_down)
+        edit_menu.add_command(label="reset zoom", accelerator=f"{accelerator} + 0", command=self.font_normal)
 
         # theme menu
         theme_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
