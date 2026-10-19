@@ -27,6 +27,7 @@ class NotePad:
         # track current filepath, empty if new/unsaved
         self.filename = ""
         self.fontsize = 12
+        self.font= "DejaVu Sans Mono"
 
         # screen dimensions & center points
         screen_width = root.winfo_screenwidth()
@@ -36,7 +37,7 @@ class NotePad:
         root.geometry(f'{window_width}x{window_height}+{x_center}+{y_center}') # centering window
 
         # text area
-        self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=("TkFixedFont", self.fontsize), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
+        self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=(self.font, self.fontsize), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
         self.text.pack(side=LEFT, expand=True, fill="both") # fill entire window
         self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
 
@@ -47,7 +48,7 @@ class NotePad:
         self.scrollbar.config(command=self.text.yview) # move content up/down
 
         # menu bar
-        menu_bar = Menu(root, bg="black", fg="#39ff24", font=("TkFixedFont", 12)) # creation
+        menu_bar = Menu(root, bg="black", fg="#39ff24", font=(self.font, 12)) # creation
         root.config(menu=menu_bar) # attach to window
 
         # file dropdown on menu bar
@@ -116,15 +117,15 @@ class NotePad:
     def about(self):
         about_window = Toplevel(self.root) # separate popup window
         about_window.title("about notePad")
-        about_window.geometry("402x150")
+        about_window.geometry("420x150")
         about_window.configure(bg="black")
 
         # "about" text
-        info_label = Label(about_window, text="simple text editor made by using tkinter\n-bntly_hckpck", bg="black", fg="#39ff24", font=("TkFixedFont", 12), justify=CENTER)
+        info_label = Label(about_window, text="simple text editor made by using tkinter\n-bntly_hckpck", bg="black", fg="#39ff24", font=(self.font, 12), justify=CENTER)
         info_label.pack(expand=True, fill=BOTH, padx=9, pady=9)
 
         # "about" close button
-        close_button = Button(about_window, text="ok", bg="black", fg="#39ff24", font=("TkFixedFont", 12), activebackground="white", command=about_window.destroy)
+        close_button = Button(about_window, text="ok", bg="black", fg="#39ff24", font=(self.font, 12), activebackground="white", command=about_window.destroy)
         close_button.pack(pady=(0, 18))
 
     # file opening method
@@ -246,18 +247,18 @@ class NotePad:
     def font_up(self):
         if (self.fontsize + 3) <= 42:
             self.fontsize += 3
-            self.text.config(font=("TkFixedFont", self.fontsize))
+            self.text.config(font=(self.font, self.fontsize))
 
     # make font smaller
     def font_down(self):
         if (self.fontsize - 3) >= 6:
             self.fontsize -= 3
-            self.text.config(font=("TkFixedFont", self.fontsize))
+            self.text.config(font=(self.font, self.fontsize))
 
     # return font to normal
     def font_normal(self):
         self.fontsize = 12
-        self.text.config(font=("TkFixedFont", self.fontsize))
+        self.text.config(font=(self.font, self.fontsize))
 
     # change typing color
     def text_color(self):
