@@ -70,7 +70,7 @@ class NotePad:
         edit_menu = Menu(menu_bar, bg="black", fg="#39ff24", activebackground="white")
         menu_bar.add_cascade(label="edit", menu=edit_menu)
         edit_menu.add_command(label="select all", accelerator=f"{accelerator} + A", command=self.select_all)
-        edit_menu.add_command(label="delete selection", accelerator="delete", state=DISABLED)
+        edit_menu.add_command(label="delete selection", accelerator="delete", command=self.delete_selection)
         edit_menu.add_command(label="cut", accelerator=f"{accelerator} + X", command=self.cut_text)
         edit_menu.add_command(label="copy", accelerator=f"{accelerator} + C", command=self.copy_text)
         edit_menu.add_command(label="paste", accelerator=f"{accelerator} + V", command=self.paste_text)
@@ -259,6 +259,14 @@ class NotePad:
     def font_normal(self):
         self.fontsize = 12
         self.text.config(font=(self.font, self.fontsize))
+
+    # delete selected text
+    def delete_selection(self):
+        try:  
+            self.text.delete("sel.first", "sel.last")
+        except tkinter.TclError:
+            pass  
+        return "break"
 
     # change typing color
     def text_color(self):
