@@ -234,14 +234,14 @@ class NotePad:
     
     # new file
     def new_file(self):
-        if not self.text.edit_modified():
-            self.text.delete(1.0, END)
-            self.filename = ""
-        elif askyesno("new file", "discard unsaved changes?"):
-            self.text.delete(1.0, END)
-            self.filename = ""
-        self.status.config(text=f"status: created new file")
-        self.root.after(6000, lambda: self.status.config(text="status: ready"))
+        if self.text.edit_modified():
+            if not askyesno("new file", "discard unsaved changes?"):
+                return
+        self.text.delete(1.0, END)
+        self.filename = ""
+        self.text.edit_modified(False)
+        self.status.config(text="status: created new file")
+        self.root.after(6000,lambda: self.status.config(text="status: ready"))
 
     # make font bigger
     def font_up(self):
