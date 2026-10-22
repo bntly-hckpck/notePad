@@ -106,6 +106,7 @@ class NotePad:
         self.root.bind(f"<{modifier}-plus>", lambda event: self.font_up())
         self.root.bind(f"<{modifier}-minus>", lambda event: self.font_down())
         self.root.bind(f"<{modifier}-0>", lambda event: self.font_normal())
+        self.root.bind(f"<{modifier}-Shift-S>", lambda event: self.save_as())
 
 
         # keyboard shortcuts already implemented by default tkinter
