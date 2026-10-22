@@ -59,7 +59,7 @@ class NotePad:
         file_menu.add_separator()
         file_menu.add_command(label="open file", command=self.open_file, accelerator=f"{accelerator} + O") # "open" item
         file_menu.add_command(label="save file", command=self.save_current, accelerator=f"{accelerator} + S") # "save" in current file
-        file_menu.add_command(label="save file as", command=self.save_as) # "save as" file
+        file_menu.add_command(label="save file as", command=self.save_as, accelerator=f"{accelerator} + Shift + S") # "save as" file
         file_menu.add_command(label="save all", state=DISABLED)
         file_menu.add_separator()
         file_menu.add_command(label="refresh", command=self.refresh)
