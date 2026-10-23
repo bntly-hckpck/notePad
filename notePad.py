@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter.messagebox import *
 from tkinter.filedialog import *
 from tkinter import colorchooser
+import os
 
 # to-do: "new tab"/"quit tab"/"save all"
 
@@ -26,6 +27,7 @@ class NotePad:
 
         # track current filepath, empty if new/unsaved
         self.filename = ""
+        self.display_name = ""
         self.fontsize = 12
         self.font= "DejaVu Sans Mono"
 
@@ -138,8 +140,10 @@ class NotePad:
                     self.text.delete(1.0, END) # clear editor
                     self.text.insert(1.0, file.read()) # load file into editor
                     self.filename = file_path
+                    self.display_name = os.path.basename(self.filename)
+                    self.root.title(f"{self.display_name} - notePad")
                 self.text.edit_modified(False) # loaded = no unsaved changes
-                self.status.config(text=f"status: opened -> {self.filename}")
+                self.status.config(text=f"status: opened -> {self.display_name}")
                 self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error: # error catching
                 showerror("error", f"unable to open file:\n{str(error)}")  # show error popup
@@ -152,8 +156,10 @@ class NotePad:
                 with open(file_path, 'w', encoding='utf-8') as file: # open file for writing
                     file.write(self.text.get(1.0, END)) # write editor content to file
                 self.filename = file_path
+                self.display_name = os.path.basename(self.filename)
+                self.root.title(f"{self.display_name} - notePad")
                 self.text.edit_modified(False) # saved = no unsaved changes
-                self.status.config(text=f"status: saved as -> {self.filename}")
+                self.status.config(text=f"status: saved as -> {self.display_name}")
                 self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
@@ -168,7 +174,7 @@ class NotePad:
                 with open(self.filename, 'w', encoding='utf-8') as file:
                     file.write(self.text.get(1.0, END)) # try to overwrite it
                 self.text.edit_modified(False)
-                self.status.config(text=f"status: saved current -> {self.filename}")
+                self.status.config(text=f"status: saved current -> {self.display_name}")
                 self.root.after(6000, lambda: self.status.config(text="status: ready"))
             except Exception as error:
                 showerror("error", f"unable to save file:\n{str(error)}")
@@ -240,6 +246,8 @@ class NotePad:
                 return
         self.text.delete(1.0, END)
         self.filename = ""
+        self.display_name = ""
+        self.root.title("notePad")
         self.text.edit_modified(False)
         self.status.config(text="status: created new file")
         self.root.after(6000,lambda: self.status.config(text="status: ready"))
