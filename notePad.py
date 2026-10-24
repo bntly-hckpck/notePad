@@ -134,19 +134,24 @@ class NotePad:
     # file opening method
     def open_file(self):
         file_path = askopenfilename(filetypes=[("text files", "*.txt"), ("all files", "*.*")]) # open dialog with file filters
-        if file_path: # if user picks file
-            try: # try executing code
-                with open(file_path, 'r', encoding='utf-8') as file: # open file for reading
-                    self.text.delete(1.0, END) # clear editor
-                    self.text.insert(1.0, file.read()) # load file into editor
-                    self.filename = file_path
-                    self.display_name = os.path.basename(self.filename)
-                    self.root.title(f"{self.display_name} - notePad")
-                self.text.edit_modified(False) # loaded = no unsaved changes
-                self.status.config(text=f"status: opened -> {self.display_name}")
-                self.root.after(6000, lambda: self.status.config(text="status: ready"))
-            except Exception as error: # error catching
-                showerror("error", f"unable to open file:\n{str(error)}")  # show error popup
+        if not file_path:
+            return
+        if self.text.edit_modified(): # check for unsaved changes
+            if not askyesno("open file", "discard unsaved changes?"):
+                return
+        try: # try executing code
+            with open(file_path, 'r', encoding='utf-8') as file: # open file for reading
+                content = file.read() # try to read content
+            self.text.delete(1.0, END) # clear editor
+            self.text.insert(1.0, content) # load file into editor
+            self.filename = file_path
+            self.display_name = os.path.basename(self.filename)
+            self.root.title(f"{self.display_name} - notePad")
+            self.text.edit_modified(False) # loaded = no unsaved changes
+            self.status.config(text=f"status: opened -> {self.display_name}")
+            self.root.after(6000,lambda: self.status.config(text="status: ready"))
+        except Exception as error: # error catching
+            showerror("error", f"unable to open file:\n{str(error)}") # show error popup
 
     # "save as", choose file path
     def save_as(self):
@@ -234,7 +239,7 @@ class NotePad:
                 self.text.delete(1.0, END)
                 self.text.insert(1.0, file.read())
             self.text.edit_modified(False)
-            self.status.config(text=f"status: refreshed file")
+            self.status.config(text=f"status: refreshed -> {self.display_name}")
             self.root.after(6000, lambda: self.status.config(text="status: ready"))
         except Exception as error:
             showerror("error", f"unable to refresh:\n{str(error)}")
