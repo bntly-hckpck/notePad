@@ -234,10 +234,16 @@ class NotePad:
 
     # refresh file
     def refresh(self):
+        if not self.filename:
+            return
+        if self.text.edit_modified():
+            if not askyesno("refresh file", "discard unsaved changes?"):
+                return
         try:
             with open(self.filename, 'r', encoding='utf-8') as file:
+                content = file.read()
                 self.text.delete(1.0, END)
-                self.text.insert(1.0, file.read())
+                self.text.insert(1.0, content)
             self.text.edit_modified(False)
             self.status.config(text=f"status: refreshed -> {self.display_name}")
             self.root.after(6000, lambda: self.status.config(text="status: ready"))
