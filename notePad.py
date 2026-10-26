@@ -42,6 +42,7 @@ class NotePad:
         self.text = tkinter.Text(undo=True, bg="black", fg="#39ff24", font=(self.font, self.fontsize), wrap=WORD, padx=9, pady=9) # black bg, green text, word wrap
         self.text.pack(side=LEFT, expand=True, fill="both") # fill entire window
         self.text.config(insertbackground="#39ff24", insertwidth=3) # make cursor visible
+        self.text.focus_set()
 
         # scrollbar
         self.scrollbar = tkinter.Scrollbar(self.root)
@@ -148,6 +149,7 @@ class NotePad:
             self.display_name = os.path.basename(self.filename)
             self.root.title(f"{self.display_name} - notePad")
             self.text.edit_modified(False) # loaded = no unsaved changes
+            self.text.focus_set()
             self.status.config(text=f"status: opened -> {self.display_name}")
             self.root.after(6000,lambda: self.status.config(text="status: ready"))
         except Exception as error: # error catching
@@ -260,6 +262,7 @@ class NotePad:
         self.display_name = ""
         self.root.title("notePad")
         self.text.edit_modified(False)
+        self.text.focus_set()
         self.status.config(text="status: created new file")
         self.root.after(6000,lambda: self.status.config(text="status: ready"))
 
