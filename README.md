@@ -18,6 +18,7 @@ Simple text editor built with Python and Tkinter.
 - [X] Vertical scrollbar
 - [X] Font resizing
 - [X] Platform aware modifiers and accelerators
+- [X] Uppercase and lowercase text conversion
 - [ ] "New tab"/"Quit tab"
 - [ ] "Save all"
 - [ ] *TBD*
