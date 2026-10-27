@@ -81,6 +81,9 @@ class NotePad:
         edit_menu.add_command(label="undo", accelerator=f"{accelerator} + Z", command=self.undoing)
         edit_menu.add_command(label="redo", accelerator=f"{accelerator} + Y", command=self.redoing)
         edit_menu.add_separator()
+        edit_menu.add_command(label="uppercase selection", command=self.uppercase)
+        edit_menu.add_command(label="lowercase selection", command=self.lowercase)
+        edit_menu.add_separator()
         edit_menu.add_command(label="zoom in", accelerator=f"{accelerator} + +", command=self.font_up)
         edit_menu.add_command(label="zoom out", accelerator=f"{accelerator} + -", command=self.font_down)
         edit_menu.add_command(label="reset zoom", accelerator=f"{accelerator} + 0", command=self.font_normal)
@@ -290,6 +293,41 @@ class NotePad:
         except tkinter.TclError:
             pass  
         return "break"
+
+    # upper conversion
+    def uppercase(self):
+        try:
+            text = self.text.get("sel.first", "sel.last").upper()
+            start = self.text.index("sel.first")
+            # start single undo (ctrl + z)
+            self.text.edit_separator()
+            self.text.configure(autoseparators=False)
+            try:
+                # replace selection
+                self.text.delete("sel.first", "sel.last")
+                self.text.insert(start, text)
+            finally:
+                # end single undo (ctrl + z)
+                self.text.edit_separator()
+                self.text.configure(autoseparators=True)
+        except tkinter.TclError:
+            pass
+
+    # lower conversion
+    def lowercase(self):
+        try:
+            text = self.text.get("sel.first", "sel.last").lower()
+            start = self.text.index("sel.first")
+            self.text.edit_separator()
+            self.text.configure(autoseparators=False)
+            try:
+                self.text.delete("sel.first", "sel.last")
+                self.text.insert(start, text)
+            finally:
+                self.text.edit_separator()
+                self.text.configure(autoseparators=True)
+        except tkinter.TclError:
+            pass
 
     # change typing color
     def text_color(self):
